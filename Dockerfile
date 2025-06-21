@@ -1,8 +1,15 @@
-FROM openjdk:8-jre-alpine
+# Use a lightweight OpenJDK base image
+FROM openjdk:17-jdk-slim
 
+# Set work directory
+WORKDIR /app
+
+# Copy the JAR file (Gradle output) into the container
+COPY build/libs/*.jar app.jar
+
+# Expose port (adjust if your app runs on a different one)
 EXPOSE 8080
 
-COPY ./build/libs/my-app-1.0-SNAPSHOT.jar /usr/app/
-WORKDIR /usr/app
+# Run the app
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-ENTRYPOINT ["java", "-jar", "my-app-1.0-SNAPSHOT.jar"]
